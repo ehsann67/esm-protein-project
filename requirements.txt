@@ -1,3 +1,9 @@
 torch
 fair-esm
 numpy
+pandas
+scipy
+biopython
+matplotlib
+scikit-learn
+transformers

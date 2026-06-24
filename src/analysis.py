@@ -1,32 +1,13 @@
-from typing import Dict
-from collections import Counter
-import math
+from scipy.spatial.distance import cosine
 
+def stability_score(wt, mut, seq):
 
-def length(seq: str) -> int:
-    return len(seq)
+    similarity = 1 - cosine(wt, mut)
 
+    aromatic = (
+        seq.count("F") +
+        seq.count("W") +
+        seq.count("Y")
+    )
 
-def amino_acid_counts(seq: str) -> Dict[str, int]:
-    return dict(Counter(seq))
-
-
-def gc_content_like_metric(seq: str) -> float:
-    """
-    Just a diversity proxy (bioinformatics style metric)
-    """
-    counts = Counter(seq)
-    total = len(seq)
-    return len(counts) / total
-
-
-def sequence_entropy(seq: str) -> float:
-    counts = Counter(seq)
-    total = len(seq)
-
-    entropy = 0
-    for c in counts.values():
-        p = c / total
-        entropy -= p * math.log2(p)
-
-    return entropy
+    return similarity + 0.02 * aromatic
